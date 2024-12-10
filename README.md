@@ -57,7 +57,7 @@ sudo systemctl start webntfy.service
 ```
 ---
 
-[Usage examples for curl, wget, Python, PHP, JavaScript, JSON](usage.md)
+### [Usage examples for curl, wget, Python, PHP, JavaScript, JSON](usage.md)
 
 ---
 
