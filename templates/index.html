@@ -1,0 +1,36 @@
+<!--# Copyright: 2boom 2023-24-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
+    <meta http-equiv="Expires" content="Wed, 06 Dec 2024 12:00:00 GMT">
+    <meta http-equiv="Pragma" content="cache">
+    <title>WebNtfy</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
+    <script src="{{ url_for('static', filename='jquery/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.min.css') }}">
+</head>
+<style>
+
+</style>
+<body>
+    <div class="MessageBox" id="messages"></div>
+    <form id="messageForm" autocomplete="off">
+    <textarea 
+        id="message" 
+        placeholder="Unload your brain here..."
+        rows="1"
+        style="width: 100%; resize: none; overflow: hidden; font-size: 0.9em; border-color: var(--mmenu);"
+    ></textarea>
+        <button type="submit" id="sendButton">Send</button>
+    </form>
+    <div class="footer">
+        <div>WebNtfy, &copy; 2boom, 2024</div>
+    </div>
+</body>
+</html>
+
