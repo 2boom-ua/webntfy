@@ -4,7 +4,7 @@
 
 ## WebNtfy
 
-A simple server for sending and receiving messages, designed to efficiently handle user interactions. It allows users to post new messages, view existing ones, and delete messages as needed
+A simple server for sending and receiving messages. It allows users to post new messages, view existing messages and delete messages as needed. This server can work in a local network without the need for an Internet connection and does not require registration.
 
 ### Requirements
 
