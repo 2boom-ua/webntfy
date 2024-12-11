@@ -110,6 +110,12 @@ Below is an example configuration for `dockcheck`, `check_services`, `update_che
     ]
 }
 ```
+| Item | Required | Description |
+|------------|------------|------------|
+| ENABLED | true/false | Enable or disable Webntfy notifications |
+| server-ip | url | The URL of your Webntfy server |
+| FORMAT_MESSAGE | markdown | Specifies the message format used by each service, such as markdown, html, or other text formatting.|
+
 ---
 ### Usage Examples for change MAX_DAYS for number of days to store messages
 *messages older than MAX_DAYS days are deleted automatically* 
