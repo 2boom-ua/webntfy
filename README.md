@@ -61,6 +61,12 @@ sudo systemctl start webntfy.service
 ```
 ---
 
+### Start
+
+**https://your_domain_name or http://server_ip:5511**
+
+---
+
 ### [Usage examples for curl, wget, Python, PHP, JavaScript, JSON](usage.md)
 
 ---
