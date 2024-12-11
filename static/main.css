@@ -1,265 +1,275 @@
 /* Copyright: 2boom 2023-24 */
 :root {
-    --mred: #FF9D9F;
-    --myellow: #FFD38C;
-    --mgreen: #CBE070;
-    --mblue: #9FADE3;
-    --mviolet: #AE8FC0;
-    --mdarkblue: #0881d8;
-    --mbutbkghv: #0056b3;
-    --mbutbkgac: #003d7a;
-    --mmesborder: #ccc;
+	--mred: #FF9D9F;
+	--myellow: #FFD38C;
+	--mgreen: #CBE070;
+	--mblue: #9FADE3;
+	--mviolet: #AE8FC0;
+	--mdarkblue: #0881d8;
+	--mbutbkghv: #0056b3;
+	--mbutbkgac: #003d7a;
+	--mmesborder: #ccc;
 }
 
-:active, :focus {
-    outline: none !important;
+:active,
+:focus {
+	outline: none !important;
 }
 
-::-webkit-scrollbar { 
-    width: 0px; 
-    background: transparent; 
+::-webkit-scrollbar {
+	width: 0px;
+	background: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --color-scheme-background: #252525;
-        --color-scheme-text-color: white;
-        --mapp: #B9B9C8;  /* app name */
-        --mdesc: #B9B9C8; /* app description */
-        --mbkg: #383838;  /* app background */
-        --msbkg: #2B2B2B;
-        --mhbkg: #454545; /* app hower background */
-        --mhbor: #FF595E; /* app hower border */
-        --mborder: #666666;
-        --mactive: #B9B9C8;
-        --minactive: #FF5C5F;
-        --mexited: #F9B236;
-        --mmenu: #969696;
-        --hoo: #454545;
-        --imgbkg: #2B2B2B;
-        --mheader: #000000;
-        --msearch: #2B2B2B;
-        --mplaceholdertext: #7b7b7b;
-        }
+	:root {
+		--color-scheme-background: #252525;
+		--color-scheme-text-color: white;
+		--mapp: #B9B9C8;
+		/* app name */
+		--mdesc: #B9B9C8;
+		/* app description */
+		--mbkg: #383838;
+		/* app background */
+		--msbkg: #2B2B2B;
+		--mhbkg: #454545;
+		/* app hower background */
+		--mhbor: #FF595E;
+		/* app hower border */
+		--mborder: #666666;
+		--mactive: #B9B9C8;
+		--minactive: #FF5C5F;
+		--mexited: #F9B236;
+		--mmenu: #969696;
+		--hoo: #454545;
+		--imgbkg: #2B2B2B;
+		--mheader: #000000;
+		--msearch: #2B2B2B;
+		--mplaceholdertext: #7b7b7b;
+	}
 }
 
 @media (prefers-color-scheme: light) {
-    :root {
-        --color-scheme-background: #f2f2f2;
-        --color-scheme-text-color: #424251;
-        --mapp: #313140;  /* app name */
-        --mdesc: #696969; /* app description */ 
-        --mbkg: #F5F5F5;  /* app background */
-        --msbkg: #FAFAFA;
-        --mhbkg: #EEEEEE; /* app hower background */
-        --mhbor: #FF6368; /* app hower border */
-        --mborder: #CFCFCF;
-        --mmenu: #969696;
-        --mactive: #5E6E18;
-        --minactive: #FF5C5F;
-        --mexited: #F9B236;
-        --hoo: #FBFBFB;
-        --imgbkg: #EBEBEB;
-        --mheader: #FFFFFF;
-        --msearch: #FBFBFB;
-        --mplaceholdertext: #808080;
-    }
+	:root {
+		--color-scheme-background: #f2f2f2;
+		--color-scheme-text-color: #424251;
+		--mapp: #313140;
+		/* app name */
+		--mdesc: #696969;
+		/* app description */
+		--mbkg: #F5F5F5;
+		/* app background */
+		--msbkg: #FAFAFA;
+		--mhbkg: #EEEEEE;
+		/* app hower background */
+		--mhbor: #FF6368;
+		/* app hower border */
+		--mborder: #CFCFCF;
+		--mmenu: #969696;
+		--mactive: #5E6E18;
+		--minactive: #FF5C5F;
+		--mexited: #F9B236;
+		--hoo: #FBFBFB;
+		--imgbkg: #EBEBEB;
+		--mheader: #FFFFFF;
+		--msearch: #FBFBFB;
+		--mplaceholdertext: #808080;
+	}
 }
 
 html {
-    background: var(--color-scheme-background);
-    color: var(--color-scheme-text-color);
+	background: var(--color-scheme-background);
+	color: var(--color-scheme-text-color);
 }
-/*
-* {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+
+html,
+body {
+	font-family: "Segoe UI", Tahoma, sans-serif;
+	font-size: 1em;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
 }
-*/
-html, body {
-  font-family: "Segoe UI", Tahoma, sans-serif;
-  font-size: 1em;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-}
+
 textarea {
-    resize: none;
-    font-size: 0.9em;
-    padding: 0.5em;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-    line-height: 1.2em;
-    border: 1px solid var(--mapp);
-    color: var(--color-scheme-text-color);
-    border-radius: 4px;
-    outline: none;
-    width: 100%; 
-    height: 1.2em; 
-    white-space: pre-wrap; 
-    word-wrap: break-word;
+	resize: none;
+	font-size: 0.9em;
+	padding: 0.5em;
+	font-family: "Segoe UI", Tahoma, sans-serif;
+	line-height: 1.2em;
+	border: 1px solid var(--mapp);
+	color: var(--color-scheme-text-color);
+	border-radius: 4px;
+	outline: none;
+	width: 100%;
+	height: 1.2em;
+	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 
 textarea:focus {
-    border-color: var(--mdarkblue);
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	border-color: var(--mdarkblue);
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.MessageBox { 
-    display: block; 
-    box-sizing: content-box;
-    max-height: 88vh;
-    overflow-y: auto;
-    margin: 1em auto 1em auto;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    width: 28em;
+.MessageBox {
+	display: block;
+	box-sizing: content-box;
+	max-height: 88vh;
+	overflow-y: auto;
+	margin: 1em auto 1em auto;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	width: 28em;
 }
 
 .message {
-  padding: 0.4em;
-  word-wrap: break-word;
-  width: 100%;
+	padding: 0.4em;
+	word-wrap: break-word;
+	width: 100%;
 }
 
 .copy-btn {
-    background: transparent;
-    border: none;
-    color: var(--mmenu);
-    cursor: pointer;
-    padding: 0.2em;
-    font-size: 0.9em;
-    transition: color 0.2s ease;
-    margin-left: 3px;
+	background: transparent;
+	border: none;
+	color: var(--mmenu);
+	cursor: pointer;
+	padding: 0.2em;
+	font-size: 0.9em;
+	transition: color 0.2s ease;
+	margin-left: 3px;
 }
 
 .delete-btn {
-    background: transparent;
-    border: none;
-    color: var(--mmenu);
-    cursor: pointer;
-    padding: 0.2em;
-    font-size: 0.9em;
-    transition: color 0.2s ease;
+	background: transparent;
+	border: none;
+	color: var(--mmenu);
+	cursor: pointer;
+	padding: 0.2em;
+	font-size: 0.9em;
+	transition: color 0.2s ease;
 }
 
 .copy-btn:hover {
-    color: var(--mgreen);
+	color: var(--mgreen);
 }
 
 .delete-btn:hover {
-    color: var(--mred);
+	color: var(--mred);
 }
 
 .delete-btn i {
-    pointer-events: none;
+	pointer-events: none;
 }
 
 .time {
-    margin-top: 0.2em;
-    font-size: 0.9em;
-    text-align: left;
-    color: var(--mactive);
+	margin-top: 0.2em;
+	font-size: 0.9em;
+	text-align: left;
+	color: var(--mactive);
 }
 
 #messages {
-    padding: 1.0em;
-    font-size: 1.0em;
+	padding: 1.0em;
+	font-size: 1.0em;
 }
 
 #messageForm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    position: fixed;
-    bottom: 1em;
-    width: 100%; /* Allows it to adapt to its container */
-    min-width: 20em; /* Minimum width */
-    max-width: 33em; /* Maximum width */
-    /*margin: 0 auto; */ /* Center align if it's a block element */
-    left: 50%;
-    transform: translateX(-50%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	position: fixed;
+	bottom: 1em;
+	width: 100%;
+	min-width: 20em;
+	max-width: 33em;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 #message {
-    flex: 1;
-    font-size: 1em;
-    padding: 10px;
-    border: 1px solid var(--mmesborder);
-    border-radius: 4px;
-    color: var(--color-scheme-text-color);
-    background-color: var(--color-scheme-background);
-    outline: none;
-    transition: border-color 0.3s ease-in-out;
+	flex: 1;
+	font-size: 1em;
+	padding: 10px;
+	border: 1px solid var(--mmesborder);
+	border-radius: 4px;
+	color: var(--color-scheme-text-color);
+	background-color: var(--color-scheme-background);
+	outline: none;
+	transition: border-color 0.3s ease-in-out;
 }
 
 #message:focus {
-    border-color: var(--mdarkblue);
-    box-shadow: 0 0 5px var(--mdarkblue);
+	border-color: var(--mdarkblue);
+	box-shadow: 0 0 5px var(--mdarkblue);
 }
 
 #messageForm button {
-    padding: 10px 10px;
-    font-size: 1em;
-    font-weight: bold;
-    color: white;
-    background-color: var(--mdarkblue);
-    border: none;
-    width: 4.0em;
-    height: 2.4em;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out, transform 0.2s;
+	padding: 10px 10px;
+	font-size: 1em;
+	font-weight: bold;
+	color: white;
+	background-color: var(--mdarkblue);
+	border: none;
+	width: 4.0em;
+	height: 2.4em;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 #messageForm button:hover {
-    background-color:  var(--mbutbkghv);
-    transform: translateY(-2px);
+	background-color: var(--mbutbkghv);
+	transform: translateY(-2px);
 }
 
 #messageForm button:active {
-    background-color: var(--mbutbkgac);
-    transform: translateY(0);
+	background-color: var(--mbutbkgac);
+	transform: translateY(0);
 }
 
 #message::placeholder {
-    color: var(--mborder); 
-    opacity: 1; 
+	color: var(--mborder);
+	opacity: 1;
 }
 
 @media (max-width: 600px) {
-    
-    #messageForm, #message, .footer {
-        display: none;
-    }
-    .MessageBox { 
-        max-height: 95vh;
-    }
+
+	#messageForm,
+	#message,
+	.footer {
+		display: none;
+	}
+
+	.MessageBox {
+		max-height: 95vh;
+	}
 }
+
 .footer {
-	position : fixed;
+	position: fixed;
 	right: 2em;
 	bottom: 0px;
 	width: 100%;
-    text-align: right;
+	text-align: right;
 	height: 24px;
 	font-size: 0.8em;
 	font-weight: 400;
-    z-index: 1000;
-    color: var(--mborder);
+	z-index: 1000;
+	color: var(--mborder);
 }
+
 .link:hover {
-    color: var(--mdesk);
+	color: var(--mdesk);
 }
+
 .link {
-    text-decoration: none;
-    color: var(--mborder);
+	text-decoration: none;
+	color: var(--mborder);
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
