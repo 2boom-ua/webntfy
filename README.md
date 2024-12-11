@@ -1,3 +1,6 @@
+<div align="center">  
+    <img src="https://github.com/2boom-ua/webntfy/blob/main/icon.jpg?raw=true" alt="" width="188" height="188">
+</div>
 ## WebNtfy
 
 A simple server for sending and receiving messages, designed to efficiently handle user interactions. It allows users to post new messages, view existing ones, and delete messages as needed
