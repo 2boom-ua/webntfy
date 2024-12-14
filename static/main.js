@@ -163,8 +163,62 @@ function initialScrollToBottom() {
    }
 }
 
+let scrollTimeout;
+
+function showScrollControls() {
+   const scrollControls = $("#scrollControls");
+   scrollControls.fadeIn();
+   clearTimeout(scrollTimeout);
+   scrollTimeout = setTimeout(() => {
+      scrollControls.fadeOut();
+   }, 8000);
+}
+
+function scrollToTop() {
+   const messagesBox = $("#messages");
+   if (messagesBox[0]) {
+      messagesBox.scrollTop(0);
+   }
+}
+
+function scrollToBottom() {
+   const messagesBox = $("#messages");
+   if (messagesBox[0]) {
+      messagesBox.scrollTop(messagesBox[0].scrollHeight);
+   }
+}
+
+//$(document).ready(function () {
+//   const messagesBox = $("#messages");
+//   messagesBox.on("scroll", () => {
+//      showScrollControls();
+//   });
+//});
+
+$(document).ready(function () {
+    const messagesBox = $("#messages");
+
+    messagesBox.on("scroll", () => {
+        showScrollControls();
+    });
+
+    $(document).on("click", () => {
+        showScrollControls();
+    });
+});
+
 $(document).ready(function () {
    interval = setInterval(loadMessages, 5000);
    loadMessages();
    setTimeout(initialScrollToBottom, 100);
 });
+
+function toggleMessageForm() {
+    const messageContainer = document.getElementById("messageContainer");
+    if (messageContainer.style.display === "none" || messageContainer.style.display === "") {
+        messageContainer.style.display = "flex";
+    } else {
+        messageContainer.style.display = "none";
+    }
+}
+
