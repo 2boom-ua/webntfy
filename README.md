@@ -23,13 +23,14 @@ cd webntfy
 ---
 ### Docker
 ```bash
-docker build -t webntfy .
+docker run -d --name webntfy webntfy:latest
 
 docker run -d \
   --name webntfy \
   -p 5511:5511 \
+  -v $(pwd)/message.db:/webntfy/message.db \
   --restart unless-stopped \
-  webntfy
+  webntfy:latest
 ```
 
 or
@@ -42,10 +43,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: webntfy:latest
     container_name: webntfy
     restart: unless-stopped
     ports:
       - 5511:5511
+    volumes:
+      - ./message.db:/webntfy/message.db
 ```
 ---
 ### Running as a Linux Service
