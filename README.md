@@ -20,16 +20,38 @@ A simple server for sending and receiving messages. It allows users to post new 
 git clone https://github.com/2boom-ua/webntfy.git
 cd webntfy
 ```
+---
+### Docker
+```bash
+docker build -t webntfy .
+
+docker run -d \
+  --name webntfy \
+  -p 5511:5511 \
+  --restart unless-stopped \
+  webntfy
+```
+#### docker-compose
+```
+version: "3.8"
+services:
+  webntfy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webntfy
+    restart: unless-stopped
+    ports:
+      - 5511:5511
+```
+---
+### Running as a Linux Service
 
 #### Install Required Python Packages
 
 ```bash
 pip install -r requirements.txt
 ```
----
-
-### Running as a Linux Service
-
 #### Create a systemd Service File
 
 ```bash
