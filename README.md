@@ -23,7 +23,7 @@ cd webntfy
 ---
 ### Docker
 ```bash
-docker run -d --name webntfy webntfy:latest
+docker build -t webntfy:latest .
 
 docker run -d \
   --name webntfy \
