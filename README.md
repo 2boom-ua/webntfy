@@ -28,7 +28,6 @@ docker build -t webntfy .
 docker run -d \
   --name webntfy \
   -p 5511:5511 \
-  -v $(pwd)/message.db:/webntfy/message.db \
   --restart unless-stopped \
   webntfy
 ```
@@ -47,8 +46,6 @@ services:
     restart: unless-stopped
     ports:
       - 5511:5511
-    volumes:
-      - ./message.db:/webntfy/message.db
 ```
 ---
 ### Running as a Linux Service
