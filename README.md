@@ -23,6 +23,11 @@ cd webntfy
 ---
 ### Docker
 ```bash
+touch messages.db
+chmod 666 messages.db
+```
+#### docker-cmd
+```bash
 docker build -t webntfy:latest .
 
 docker run -d \
@@ -37,19 +42,19 @@ or
 
 #### docker-compose
 ```
-version: "3.8"
+version: '3.9'
 services:
   webntfy:
     build:
       context: .
       dockerfile: Dockerfile
-    image: webntfy:latest
-    container_name: webntfy
+    image: 'webntfy:latest'
     restart: unless-stopped
-    ports:
-      - 5511:5511
     volumes:
-      - ./message.db:/webntfy/message.db
+      - './message.db:/webntfy/message.db'
+    ports:
+      - '5511:5511'
+    container_name: webntfy
 ```
 ---
 ### Running as a Linux Service
