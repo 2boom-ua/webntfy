@@ -31,6 +31,9 @@ docker run -d \
   --restart unless-stopped \
   webntfy
 ```
+
+or
+
 #### docker-compose
 ```
 version: "3.8"
