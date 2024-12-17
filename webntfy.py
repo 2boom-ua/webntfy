@@ -8,7 +8,8 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-DB_FILE = f"{os.path.dirname(os.path.realpath(__file__))}/messages.db"
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+DB_FILE = os.path.join(BASE_DIR, "messages.db")
 MAX_DAYS = 30
 
 def toHTMLFormat(message: str) -> str:
