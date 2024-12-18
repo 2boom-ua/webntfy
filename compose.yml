@@ -7,7 +7,7 @@ services:
     container_name: webntfy
     image: webntfy:latest
     environment:
-      - TZ=Europe/Kyiv
+      - TZ=UTC
     ports:
       - 5511:5511
     volumes:
@@ -19,4 +19,3 @@ services:
       timeout: 5s
       retries: 3
 
-networks: {}
