@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  webntfy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webntfy
+    image: webntfy:latest
+    environment:
+      - TZ=Europe/Kyiv
+    ports:
+      - 5511:5511
+    volumes:
+      - ./messages.db:/webntfy/messages.db
+    restart: always
