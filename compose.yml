@@ -7,10 +7,16 @@ services:
     container_name: webntfy
     image: webntfy:latest
     environment:
-      - TZ=UTC
+      - TZ=Europe/Kyiv
     ports:
       - 5511:5511
     volumes:
       - ./messages.db:/webntfy/messages.db
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5511/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
 networks: {}
