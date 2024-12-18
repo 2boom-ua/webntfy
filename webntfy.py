@@ -8,8 +8,8 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-DB_FILE = os.path.join(BASE_DIR, "messages.db")
+DB_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "messages.db")
+
 MAX_DAYS = 30
 
 def toHTMLFormat(message: str) -> str:
@@ -92,6 +92,18 @@ def get_last_message_id():
     if last_message:
         return last_message[0]
     return None
+
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Health check endpoint."""
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        conn.cursor().execute("SELECT 1")
+        conn.close()
+        return jsonify({"status": "healthy"}), 200
+    except sqlite3.Error as e:
+        return jsonify({"status": "unhealthy", "error": str(e)}), 500
 
 
 @app.route('/maxdays', methods=['POST'])
