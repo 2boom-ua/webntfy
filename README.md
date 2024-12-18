@@ -31,7 +31,7 @@ pip install -r requirements.txt
 #### Create a systemd Service File
 
 ```bash
-sudo nano /etc/systemd/system/webntfy.service
+nano /etc/systemd/system/webntfy.service
 ```
 
 Add the following content:
@@ -53,9 +53,9 @@ WantedBy=multi-user.target
 #### Start and Enable the Service
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable webntfy.service
-sudo systemctl start webntfy.service
+systemctl daemon-reload
+systemctl enable webntfy.service
+systemctl start webntfy.service
 ```
 ---
 
