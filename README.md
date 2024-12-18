@@ -21,6 +21,47 @@ git clone https://github.com/2boom-ua/webntfy.git
 cd webntfy
 ```
 ---
+### Docker
+```bash
+touch messages.db
+```
+### docker-cli
+```bash
+docker build -t webntfy:latest .
+```
+```bash
+docker run -d \
+  --name webntfy \
+  --env TZ=UTC \
+  -p 5511:5511 \
+  -v $(pwd)/messages.db:/webntfy/messages.db \
+  --restart always \
+  webntfy:latest
+```
+### docker-compose
+```
+version: "3.8"
+services:
+  webntfy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webntfy
+    image: webntfy:latest
+    environment:
+      - TZ=UTC
+    ports:
+      - 5511:5511
+    volumes:
+      - ./messages.db:/webntfy/messages.db
+    restart: always
+```
+
+```bash
+docker-compose up -d
+```
+
+---
 ### Running as a Linux Service
 
 #### Install Required Python Packages
