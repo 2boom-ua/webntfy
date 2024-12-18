@@ -55,6 +55,11 @@ services:
     volumes:
       - ./messages.db:/webntfy/messages.db
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5511/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
 ```
 
 ```bash
