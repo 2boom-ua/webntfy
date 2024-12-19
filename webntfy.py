@@ -9,7 +9,6 @@ import os
 
 app = Flask(__name__)
 DB_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "messages.db")
-
 MAX_DAYS = 30
 
 def toHTMLFormat(message: str) -> str:
