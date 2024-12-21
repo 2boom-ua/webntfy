@@ -27,27 +27,25 @@
         <button id="toBottom" aria-label="To-Bottom" onclick="scrollToBottom()">
                 <i class="fas fa-arrow-down"></i>
             </button>
-    
     <button id="toggleMessageForm" aria-label="Imput-Form" onclick="toggleMessageForm()">
         <i class='fas fa-comment'></i>
     </button>
     </div>
+    <div id="footer">WebNtfy, &copy; 2boom, 2024</div>
     <div id="messageContainer" style="display: none;">
         <form id="messageForm" autocomplete="off">
+            <div id="messageInputWrapper">
             <textarea 
                 id="message" 
                 placeholder="Unload your brain here..."
-                rows="2"
-                style="width: 100%; resize: none; overflow: hidden; font-size: 1em; border-color: var(--mborder); background-color: var(--mborder);"
+                rows="1"
+                
             ></textarea>
             <button type="submit" aria-label="Send" id="sendButton">
                 <i class='fas fa-paper-plane'></i>
             </button>
+            </div>
         </form>
-    </div>
-
-    <div class="footer">
-       <div >WebNtfy, &copy; 2boom, 2024</div>
     </div>
 </body>
 </html>
