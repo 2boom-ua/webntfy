@@ -198,9 +198,9 @@ function scrollToBottom() {
 $(document).ready(function () {
     const messagesBox = $("#messages");
 
-    messagesBox.on("scroll", () => {
-        showScrollControls();
-    });
+    //messagesBox.on("scroll", () => {
+    //    showScrollControls();
+    //});
 
     $(document).on("click", () => {
         showScrollControls();
@@ -221,4 +221,3 @@ function toggleMessageForm() {
         messageContainer.style.display = "none";
     }
 }
-
