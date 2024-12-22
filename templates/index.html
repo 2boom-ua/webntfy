@@ -1,23 +1,21 @@
-<!--# Copyright: 2boom 2024-->
+<!-- Copyright: 2boom 2024 -->
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="Cache-Control" content="public, max-age=3600">
-      <meta http-equiv="Expires" content="Wed, 06 Dec 2024 12:00:00 GMT">
-      <meta http-equiv="Pragma" content="cache">
-      <meta name="msapplication-TileImage" content="{{ url_for('static', filename='mstile-144x144.png') }}">
-      <title>WebNtfy</title>
-      <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-      <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
-      <script src="{{ url_for('static', filename='jquery/jquery-3.7.1.min.js') }}"></script>
-      <script src="{{ url_for('static', filename='main.js') }}"></script>
-      <link rel="stylesheet" href="{{ url_for('static', filename='all.min.css') }}">
-   </head>
-   <style>
-   </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
+    <meta http-equiv="Expires" content="Wed, 06 Dec 2024 12:00:00 GMT">
+    <meta http-equiv="Pragma" content="cache">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='mstile-144x144.png') }}">
+    <title>WebNtfy</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
+    <script src="{{ url_for('static', filename='jquery/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.min.css') }}">
+</head>
 <body>
     <div class="MessageBox" id="messages"></div>
     <div id="scrollControls" style="display: none;">
@@ -25,25 +23,20 @@
             <i class="fas fa-arrow-up"></i>
         </button>
         <button id="toBottom" aria-label="To-Bottom" onclick="scrollToBottom()">
-                <i class="fas fa-arrow-down"></i>
-            </button>
-    <button id="toggleMessageForm" aria-label="Imput-Form" onclick="toggleMessageForm()">
-        <i class='fas fa-comment'></i>
-    </button>
+            <i class="fas fa-arrow-down"></i>
+        </button>
+        <button id="toggleMessageForm" aria-label="Imput-Form" onclick="toggleMessageForm()">
+            <i class='fas fa-comment'></i>
+        </button>
     </div>
     <div id="footer">WebNtfy, &copy; 2boom, 2024</div>
     <div id="messageContainer" style="display: none;">
         <form id="messageForm" autocomplete="off">
             <div id="messageInputWrapper">
-            <textarea 
-                id="message" 
-                placeholder="Unload your brain here..."
-                rows="1"
-                
-            ></textarea>
-            <button type="submit" aria-label="Send" id="sendButton">
-                <i class='fas fa-paper-plane'></i>
-            </button>
+                <textarea id="message" placeholder="Unload your brain here..." rows="1"></textarea>
+                <button type="submit" aria-label="Send" id="sendButton">
+                    <i class='fas fa-paper-plane'></i>
+                </button>
             </div>
         </form>
     </div>
