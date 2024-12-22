@@ -136,7 +136,6 @@ $(document).ready(function () {
       if (!message) {
          return;
       }
-
       $.ajax({
          url: '/messages',
          type: 'POST',
@@ -188,19 +187,8 @@ function scrollToBottom() {
    }
 }
 
-//$(document).ready(function () {
-//   const messagesBox = $("#messages");
-//   messagesBox.on("scroll", () => {
-//      showScrollControls();
-//   });
-//});
-
 $(document).ready(function () {
     const messagesBox = $("#messages");
-
-    //messagesBox.on("scroll", () => {
-    //    showScrollControls();
-    //});
 
     $(document).on("click", () => {
         showScrollControls();
