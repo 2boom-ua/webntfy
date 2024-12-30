@@ -29,49 +29,57 @@ function deleteMessage(id) {
 }
 
 function loadMessages() {
-    const selectedChannel = $('#channel').val();
-    $.getJSON(`/messages?channel=${encodeURIComponent(selectedChannel)}`, function (data) {
-        let htmlContent = '';
-        data.messages.forEach(function (msg) {
-            htmlContent += `<div><strong>${msg.time}</strong>: ${msg.text}</div>`;
-        });
-        $('#messages').html(htmlContent);
-    });
+   $.getJSON('/messages', function (data) {
+      let htmlContent = '';
+      let latestMessageId = lastMessageId;
+      data.messages.forEach(function (msg) {
+         htmlContent += `
+                <div class="message">
+                    <div>${msg.text}</div>
+                    <div class="time">
+                        ${msg.time}
+                        <button class="copy-btn" aria-label="Copy" onclick="copyMessage('${msg.text}')">
+                            <i class="fa fa-copy"></i>
+                        </button>
+                        <button class="delete-btn" aria-label="Remove" onclick="deleteMessage(${msg.id})">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`;
+         if (!latestMessageId || msg.id > latestMessageId) {
+            latestMessageId = msg.id;
+         }
+      });
+      const messagesBox = $("#messages");
+      const isScrolledToBottom = messagesBox.scrollTop() + messagesBox.innerHeight() >= messagesBox[0]?.scrollHeight;
+
+      messagesBox.html(htmlContent);
+
+      if (lastMessageId === null) {
+          initialScrollToBottom();
+      } else {
+          const isScrolledToBottom = messagesBox.scrollTop() + messagesBox.innerHeight() >= messagesBox[0]?.scrollHeight;
+          if (isScrolledToBottom) {
+              messagesBox.scrollTop(messagesBox[0].scrollHeight);
+          }
+      }
+
+      if (isScrolledToBottom) {
+         messagesBox.scrollTop(messagesBox[0].scrollHeight);
+      }
+
+      if (lastMessageId !== null && latestMessageId > lastMessageId) {
+         const newMessages = data.messages.filter(msg => msg.id > lastMessageId);
+         newMessages.forEach(msg => {
+            showNotification(msg.text);
+            if (!document.hasFocus()) {
+               changeFavicon("/static/favicon-alert.svg");
+            }
+         });
+      }
+      lastMessageId = latestMessageId;
+   });
 }
-
-function sendMessage() {
-    const message = $('#message').val().trim();
-    const selectedChannel = $('#channel').val();
-    if (!message) {
-        return;
-    }
-
-    $.ajax({
-        url: '/messages',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ message: message, channel: selectedChannel }),
-        success: function () {
-            $('#message').val('');
-            loadMessages();
-        },
-        error: function (error) {
-            alert('Failed to send message. Error code: ' + error.status);
-        }
-    });
-}
-
-$(document).ready(function () {
-    $('#channel').on('change', loadMessages);
-    $('#messageForm').on('submit', function (e) {
-        e.preventDefault();
-        sendMessage();
-    });
-    loadMessages();
-});
-
-
-
 
 function stripHTMLTags(message_string) {
    message_string = message_string.replace(/<br\s*\/?>/gi, "\n").replace(/<\/?[^>]+(>|$)/g, "");
@@ -133,31 +141,27 @@ $(document).ready(function () {
    });
 
    function sendMessage() {
-    const message = $('#message').val().trim();
-    const selectedChannel = $('#channel').val(); // Get the selected channel
-    if (!message) {
-        return;
-    }
-
-    $.ajax({
-        url: '/messages',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            message: message,
-            channel: selectedChannel // Include channel in the payload
-        }),
-        success: function () {
+      const message = $('#message').val().trim();
+      if (!message) {
+         return;
+      }
+      $.ajax({
+         url: '/messages',
+         type: 'POST',
+         contentType: 'application/json',
+         data: JSON.stringify({
+            message
+         }),
+         success: function () {
             $('#message').val('');
             loadMessages();
             initialScrollToBottom();
-        },
-        error: function (error) {
+         },
+         error: function (error) {
             alert('Failed to send message. Error code: ' + error.status);
-        }
-    });
-}
-
+         }
+      });
+   }
 });
 
 function initialScrollToBottom() {
@@ -192,19 +196,8 @@ function scrollToBottom() {
    }
 }
 
-//$(document).ready(function () {
-//   const messagesBox = $("#messages");
-//   messagesBox.on("scroll", () => {
-//      showScrollControls();
-//   });
-//});
-
 $(document).ready(function () {
     const messagesBox = $("#messages");
-
-    messagesBox.on("scroll", () => {
-        showScrollControls();
-    });
 
     $(document).on("click", () => {
         showScrollControls();
@@ -212,21 +205,26 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('#channel').on('change', function () {
-        loadMessages(); // Reload messages for the selected channel
-    });
-
-    interval = setInterval(loadMessages, 5000);
-    loadMessages();
-    setTimeout(initialScrollToBottom, 100);
+   interval = setInterval(loadMessages, 5000);
+   loadMessages();
+   setTimeout(initialScrollToBottom, 100);
 });
 
 function toggleMessageForm() {
     const messageContainer = document.getElementById("messageContainer");
+    const messageInput = document.getElementById("message");
     if (messageContainer.style.display === "none" || messageContainer.style.display === "") {
         messageContainer.style.display = "flex";
+        messageInput.focus();
     } else {
         messageContainer.style.display = "none";
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const messageInput = document.getElementById("message");
+    messageInput.focus();
+});
+
+
 

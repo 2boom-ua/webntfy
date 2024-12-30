@@ -28,16 +28,12 @@
 		--color-scheme-background: #252525;
 		--color-scheme-text-color: white;
 		--mapp: #B9B9C8;
-		/* app name */
+        --mmessage: #2b2b2b;
 		--mdesc: #B9B9C8;
-		/* app description */
 		--mbkg: #383838;
-		/* app background */
 		--msbkg: #2B2B2B;
 		--mhbkg: #454545;
-		/* app hower background */
 		--mhbor: #FF595E;
-		/* app hower border */
 		--mborder: #666666;
 		--mactive: #B9B9C8;
 		--minactive: #FF5C5F;
@@ -46,26 +42,22 @@
 		--hoo: #454545;
 		--imgbkg: #2B2B2B;
 		--mheader: #000000;
-		--msearch: #2B2B2B;
-		--mplaceholdertext: #7b7b7b;
+		--msearch: #3B3B3B;
+		--mplaceholdertext: #C9C9C9;
 	}
 }
 
 @media (prefers-color-scheme: light) {
 	:root {
-		--color-scheme-background: #f2f2f2;
-		--color-scheme-text-color: #424251;
+		--color-scheme-background: #F2F2F2;
+		--color-scheme-text-color: #212121;
 		--mapp: #313140;
-		/* app name */
+        --mmessage: #e1e1e1;
 		--mdesc: #696969;
-		/* app description */
 		--mbkg: #F5F5F5;
-		/* app background */
 		--msbkg: #FAFAFA;
 		--mhbkg: #EEEEEE;
-		/* app hower background */
 		--mhbor: #FF6368;
-		/* app hower border */
 		--mborder: #CFCFCF;
 		--mmenu: #969696;
 		--mactive: #5E6E18;
@@ -87,7 +79,6 @@ html {
 html,
 body {
 	font-family: "Segoe UI", Tahoma, sans-serif;
-	font-size: 1em;
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
@@ -98,19 +89,27 @@ body {
 .MessageBox {
 	display: block;
 	box-sizing: content-box;
-	max-height: 89vh;
+	max-height: 92vh;
 	overflow-y: auto;
-	margin: 1.0em auto 1.5em auto;
-	word-wrap: break-word;
+	margin: 1em auto 1em auto;
 	overflow-wrap: break-word;
 	width: 28em;
-    
 }
 
 .message {
-	padding: 0.4em;
+	padding: 0.1em;
+    margin: 0 0.3em;
 	word-wrap: break-word;
 	width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    #footer {
+		display: none !important;
+	}
+    .MessageBox {
+        width: 23em;
+    }
 }
 
 .copy-btn, .strike-btn {
@@ -146,108 +145,91 @@ body {
 }
 
 .time {
-	margin-top: 0.2em;
-	font-size: 0.9em;
+	font-size: 1em;
 	text-align: left;
-	color: var(--mactive);
+	color: var(--mplaceholdertext);
 }
 
-textarea {
-	padding: 0.5em;
-	font-family: "Segoe UI", Tahoma, sans-serif;
-	line-height: 1.2em;
-	color: var(--color-scheme-text-color);
-	outline: none;
-	width: 100%;
-	height: 1.2em;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-} 
-
-#messages {
-	padding: 1.0em;
-	font-size: 1.0em;
+#messageContainer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: var(--color-scheme-background);
 }
 
 #messageForm {
-	display: flex;
-    position: fixed;
-    bottom:2em;
-	justify-content: center;
-	align-items: center;
-	gap: 10px;
-	padding: 10px;
-	position: fixed;
-	bottom: 1em;
-	width: 100%;
-	min-width: 20em;
-	max-width: 33em;
-	left: 50%;
-	transform: translateX(-50%);
-} 
-
-#message {
-	flex: 1;
-	font-size: 1em;
-	padding: 10px;
-	border-radius: 20px;
-	color: var(--color-scheme-text-color);
-	background-color: var(--color-scheme-background);
-	outline: none;
-}
-
-#messageForm textarea:focus, #messageForm button:focus {
-    outline: none;
-	box-shadow: none;
-}
-
-#messageForm button {
     display: flex;
-	padding: 10px 10px;
-	font-size: 1em;
-	font-weight: bold;
-	color: white;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 30em;
+    margin: 0 auto;
+    padding: 0.5em;
+}
+
+#messageInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+#message {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    flex: 1;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    padding-right: 50px; 
+    outline: none;
+    font-size: 1em;
+    line-height: 1.5;
+    resize: none;
+    background-color: var(--mheader);
+    color: var(--mactive);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s, background-color 0.2s;
+}
+
+#message:focus {
+    background-color: var(--mheader);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#sendButton {
+    position: absolute;
+    right: 10px;
+    bottom: 50%;
+    transform: translateY(50%);
     background-color: var(--mborder);
-	border: none;
-	width: 2.5em;
-	height: 2.5em;
-	border-radius: 50%;
-	cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
 }
 
-#messageForm button:hover {
-	background-color: var(--mbutbkghv);
+#sendButton:hover {
+    background-color: var(--mbutbkghv);
 }
 
-#messageForm button:active {
-	background-color: var(--mbutbkgac);
-	transform: translateY(0);
+#sendButton i {
+    font-size: 1em;
 }
 
-#message::placeholder {
-	color: var(--msbkg);
-	opacity: 1;
-}
-
-@media (max-width: 600px) {
-	#messageForm {
-    width: 92%;
-    }
-    .footer
-    {
-		display: none;
-	}
-	.MessageBox {
-		max-height: 90vh;
-	}
-}
-   
-.footer {
+#footer {
     position: fixed;
     right: 2em;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     text-align: right;
     height: 26px;
@@ -329,15 +311,6 @@ textarea {
    background-color: var(--mbutbkghv);
 }
 
-.link:hover {
-	color: var(--mdesk);
-}
-
-.link {
-	text-decoration: none;
-	color: var(--mborder);
-}
-/******************/
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, figure, figcaption, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
