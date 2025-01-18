@@ -1,15 +1,25 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# Copyright: 2boom 2024
+# Copyright: 2boom 2024-25
 
 from flask import Flask, render_template, jsonify, request
 from datetime import datetime, timedelta
 import sqlite3
+import logging
 import os
 
 app = Flask(__name__)
 DB_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "messages.db")
 MAX_DAYS = 30
+
+
+"""Configure logging"""
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger("webntfy")
+
 
 def toHTMLFormat(message: str) -> str:
     """Converts Markdown-like syntax to HTML format."""
@@ -113,10 +123,13 @@ def max_days():
         data = request.get_json()
         new_max_days = int(data.get("max_days", MAX_DAYS))
         if new_max_days <= 0:
+            logging.error("MAX_DAYS must be greater than 0.")
             return jsonify({"status": "error", "message": "MAX_DAYS must be greater than 0."}), 400
         MAX_DAYS = new_max_days
+        logging.info("MAX_DAYS updated to {MAX_DAYS}.")
         return jsonify({"status": "success", "message": f"MAX_DAYS updated to {MAX_DAYS}."}), 200
     except (ValueError, TypeError):
+        logging.error("Invalid input. MAX_DAYS must be an integer.")
         return jsonify({"status": "error", "message": "Invalid input. MAX_DAYS must be an integer."}), 400
 
 
@@ -130,8 +143,10 @@ def delete_last_message():
         cursor.execute("DELETE FROM messages WHERE id = ?", (last_id,))
         conn.commit()
         conn.close()
+        logging.info("Last message deleted.")
         return jsonify({"status": "success", "message": "Last message deleted."}), 200
-    return jsonify({"status": "error", "message": "No messages to delete."}), 400
+    logging.error("No last messages to delete.")
+    return jsonify({"status": "error", "message": "No last messages to delete."}), 400
 
    
 @app.route('/deleteall', methods=['DELETE'])
@@ -158,7 +173,9 @@ def messages_endpoint():
         if 'message' in data:
             add_message(data['message'])
             truncate_messages()
+            logging.info("Message added successfully.")
             return jsonify({"status": "success", "message": "Message added!"}), 200
+        logging.error("No message provided in the POST request.")   
         return jsonify({"status": "error", "message": "No message provided!"}), 400
 
     if request.method == 'DELETE':
@@ -166,7 +183,9 @@ def messages_endpoint():
         message_id = data.get('id')
         if message_id is not None:
             delete_message(message_id)
+            logging.info(f"Message with ID {message_id} deleted successfully.")
             return jsonify({"status": "success", "message": "Message deleted!"}), 200
+        logging.error("Invalid ID provided in the DELETE request.")
         return jsonify({"status": "error", "message": "Invalid ID!"}), 400
 
     return jsonify({"messages": get_messages()})
