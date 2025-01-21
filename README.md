@@ -27,27 +27,15 @@ touch messages.db
 ```
 ### docker-cli
 ```bash
-docker build -t webntfy:latest .
-```
-```bash
-docker run -d \
-  --name webntfy \
-  --env TZ=UTC \
-  -p 5511:5511 \
-  -v $(pwd)/messages.db:/webntfy/messages.db \
-  --restart always \
-  webntfy:latest
+docker run -v ./messages.db:/webntfy/messages.db --name webntfy -p 5511:5511 -e TZ=UTC ghcr.io/2boom-ua/webntfy:latest 
 ```
 ### docker-compose
 ```
 version: "3.8"
 services:
   webntfy:
-    build:
-      context: .
-      dockerfile: Dockerfile
     container_name: webntfy
-    image: webntfy:latest
+    image: ghcr.io/2boom-ua/webntfy:latest
     environment:
       - TZ=UTC
     ports:
