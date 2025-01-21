@@ -1,11 +1,8 @@
 version: "3.8"
 services:
   webntfy:
-    build:
-      context: .
-      dockerfile: Dockerfile
     container_name: webntfy
-    image: webntfy:latest
+    image: ghcr.io/2boom-ua/webntfy:latest
     environment:
       - TZ=UTC
     ports:
