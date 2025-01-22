@@ -25,6 +25,15 @@ cd webntfy
 ```bash
 touch messages.db
 ```
+
+```bash
+  docker build -t webntfy .
+```
+or
+```bash
+  docker pull ghcr.io/2boom-ua/webntfy:latest
+```
+
 ### docker-cli
 ```bash
 docker run -v ./messages.db:/webntfy/messages.db --name webntfy -p 5511:5511 -e TZ=UTC ghcr.io/2boom-ua/webntfy:latest 
