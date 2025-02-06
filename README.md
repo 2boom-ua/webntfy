@@ -46,7 +46,7 @@ services:
     container_name: webntfy
     image: ghcr.io/2boom-ua/webntfy:latest
     environment:
-      - TZ=UTC
+      - TZ=Etc/UTC
     ports:
       - 5511:5511
     volumes:
