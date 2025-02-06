@@ -7,7 +7,7 @@ services:
     container_name: webntfy
     image: webntfy:latest
     environment:
-      - TZ=Europe/Kyiv
+      - TZ=Etc/UTC
     ports:
       - 5511:5511
     volumes:
