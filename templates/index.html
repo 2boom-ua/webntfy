@@ -1,4 +1,3 @@
-<!-- Copyright: 2boom 2024 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,34 +10,56 @@
     <title>WebNtfy</title>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
-    <script src="{{ url_for('static', filename='jquery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='all.min.css') }}">
 </head>
 <body>
-    <div class="MessageBox" id="messages"></div>
+    <div id="confirmBox" class="confirm">
+        <div class="confirm-content">
+            <p id="confirmMessage">Are you sure you want to remove this channel?</p>
+            <button id="confirmYes">Yes</button>
+            <button id="confirmNo">No</button>
+        </div>
+    </div>
+    <div id="alertBox" class="alert"></div>
+    <div class="MessageBox" id="messages"> </div>
     <div id="scrollControls" style="display: none;">
-        <button id="toTop"  aria-label="To-Top" onclick="scrollToTop()">
+        <button id="selectChannel" title="Select Channels" aria-label="select-Channel">
+            <i class="fas fa-stream"></i>
+        </button>
+        <button id="addChannel" title="Add Channel" aria-label="add-Channel">
+            <i class="fas fa-plus-square"></i>
+        </button>
+        <button id="removeChannel" title="Remove Channel" aria-label="Remove-Channel" onclick="removeChannel()">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+        <button id="toTop" title="First Message" aria-label="To-Top" onclick="scrollToTop()">
             <i class="fas fa-arrow-up"></i>
         </button>
-        <button id="toBottom" aria-label="To-Bottom" onclick="scrollToBottom()">
+        <button id="toBottom" title="Last Message" aria-label="To-Bottom" onclick="scrollToBottom()">
             <i class="fas fa-arrow-down"></i>
         </button>
-        <button id="toggleMessageForm" aria-label="Imput-Form" onclick="toggleMessageForm()">
+        <button id="toggleMessageForm" title="Write Message" aria-label="Input-Form" onclick="toggleMessageForm()">
             <i class='fas fa-comment'></i>
         </button>
+        <form id="channelForm" style="display: none;">
+            <select id="channel" name="channel" aria-label="Select Channel">
+                {% for ch in channels %}
+                <option value="{{ ch }}" {% if ch == channel %}selected{% endif %}>{{ ch }}</option>
+                {% endfor %}
+            </select>
+        </form>
     </div>
-    <div id="footer">WebNtfy, &copy; 2boom, 2024</div>
+    
     <div id="messageContainer" style="display: none;">
         <form id="messageForm" autocomplete="off">
             <div id="messageInputWrapper">
                 <textarea id="message" placeholder="Unload your brain here..." rows="1"></textarea>
-                <button type="submit" aria-label="Send" id="sendButton">
-                    <i class='fas fa-paper-plane'></i>
-                </button>
+                <button type="submit" aria-label="Send" id="sendButton">Send</button>
             </div>
         </form>
     </div>
+    <div id="footer">WebNtfy, &copy; 2boom, 2024-25</div>
 </body>
 </html>
