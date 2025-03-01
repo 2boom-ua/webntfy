@@ -1,4 +1,4 @@
-/* Copyright: 2boom 2023-24 */
+/* Copyright: 2boom 2023-25 */
 :root {
 	--mred: #FF9D9F;
 	--myellow: #FFD38C;
@@ -11,6 +11,11 @@
 	--mbutbkghv: #0056b3;
 	--mbutbkgac: #003d7a;
 	--mmesborder: #ccc;
+    --primary: #00A4E9; /* Blue */
+    --success: #00D672; /* Green */
+    --warning: #FF6433; /* Orange */
+    --error: #FF2337; /* Red */
+    --secondary: #F8AE3C; /*Yellow*/
 }
 
 :active,
@@ -26,7 +31,7 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--color-scheme-background: #252525;
-		--color-scheme-text-color: white;
+		--color-scheme-text-color:  #EFEFEF;
 		--mapp: #B9B9C8;
         --mmessage: #2b2b2b;
 		--mdesc: #B9B9C8;
@@ -49,8 +54,8 @@
 
 @media (prefers-color-scheme: light) {
 	:root {
-		--color-scheme-background: #F2F2F2;
-		--color-scheme-text-color: #212121;
+		--color-scheme-background: #F8F8F8;
+		--color-scheme-text-color: #555657;
 		--mapp: #313140;
         --mmessage: #e1e1e1;
 		--mdesc: #696969;
@@ -78,7 +83,8 @@ html {
 
 html,
 body {
-	font-family: "Segoe UI", Tahoma, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.2;
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
@@ -88,12 +94,13 @@ body {
 
 .MessageBox {
 	display: block;
+    font-size: 1em;
 	box-sizing: content-box;
 	max-height: 92vh;
 	overflow-y: auto;
 	margin: 1em auto 1em auto;
 	overflow-wrap: break-word;
-	width: 28em;
+	width: 30em;
 }
 
 .message {
@@ -110,19 +117,12 @@ body {
     .MessageBox {
         width: 23em;
     }
+    #channelForm, #channelForm select {
+        font-size: 1.1em;
+    }
 }
 
-.copy-btn, .strike-btn {
-	background: transparent;
-	border: none;
-	color: var(--mmenu);
-	cursor: pointer;
-	padding: 0.2em;
-	font-size: 0.9em;
-	transition: color 0.2s ease;
-}
-
-.delete-btn {
+.copy-btn, .delete-btn {
 	background: transparent;
 	border: none;
 	color: var(--mmenu);
@@ -140,14 +140,51 @@ body {
 	color: var(--mdarkred);
 }
 
-.delete-btn i {
-	pointer-events: none;
-}
-
 .time {
 	font-size: 1em;
 	text-align: left;
 	color: var(--mplaceholdertext);
+    margin-bottom: 0.1em;
+}
+
+#channelForm {
+    position: fixed;
+    font-size: 1.1em;
+    min-width: 10em;
+    max-width: 30em;
+    top: 0;
+    right: 0; 
+    z-index: 1000; 
+    color: var(--color-scheme-text-color);
+    padding: 0.6em;
+}
+
+#channelForm select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 30em;
+    min-width: 10em;
+    margin: 0 auto;
+    background-color: var(--mheader);
+    color: var(--mactive);
+    font-size: 1.0em;
+    line-height: 1.5;
+    border: 1px solid var(--mborder);
+    padding: 5px;
+    border-radius: 5px;
+    color: var(--mactive);
+    /*box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);*/
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s, background-color 0.2s;
+}
+
+#channelForm select,
+#channelForm select option {
+    background-color: var(--mheader);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
 }
 
 #messageContainer {
@@ -175,21 +212,23 @@ body {
     align-items: center;
     width: 100%;
     max-width: 700px;
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 5px;
 }
 
 #message {
-    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.2;
     flex: 1;
     border: none;
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 10px;
-    padding-right: 50px; 
+    padding-right: 80px; 
     outline: none;
     font-size: 1em;
-    line-height: 1.5;
+    line-height: 1.2;
     resize: none;
+    border: 1px solid var(--mborder);
     background-color: var(--mheader);
     color: var(--mactive);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -198,19 +237,21 @@ body {
 
 #message:focus {
     background-color: var(--mheader);
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 #sendButton {
     position: absolute;
-    right: 10px;
+    right: 9px;
     bottom: 50%;
     transform: translateY(50%);
-    background-color: var(--mborder);
+    background-color: var(--primary);
     border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 1em;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,11 +260,7 @@ body {
 }
 
 #sendButton:hover {
-    background-color: var(--mbutbkghv);
-}
-
-#sendButton i {
-    font-size: 1em;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2)); 
 }
 
 #footer {
@@ -234,28 +271,54 @@ body {
     text-align: right;
     height: 26px;
     font-size: 0.8em;
-    font-weight: 400;
     z-index: 1000;
     color: var(--mborder);
     background-color: transparent; 
 }
 
-#scrollControls {
+#selectChannel {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: none;
-    flex-direction: row;
-    gap: 10px;
-}
-
-#toggleMessageForm {
-    position: fixed;
-    bottom:4.6em;
+    bottom: 20.5em;
     right: 1.0em;
     width: 2.5em;
     height: 2.5em;
-    background-color: var(--mborder);
+    background-color: var(--warning);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#addChannel {
+    position: fixed;
+    bottom: 17.5em;
+    right: 1.0em;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#removeChannel {
+    position: fixed;
+    bottom: 14.5em;
+    right: 1.0em;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: var(--error);
     color: white;
     border: none;
     border-radius: 50%;
@@ -273,7 +336,7 @@ body {
     right: 1.0em;
     width: 2.5em;
     height: 2.5em;
-    background-color: var(--mborder);
+    background-color: var(--success);
     color: white;
     border: none;
     border-radius: 50%;
@@ -283,10 +346,6 @@ body {
     font-size: 1em;
     cursor: pointer;
     z-index: 1000;
-}
-
-#toTop:hover, #toBottom:hover, #toggleMessageForm:hover {
-    background-color: var(--mbutbkghv);
 }
 
 #toBottom {
@@ -295,7 +354,7 @@ body {
     right: 1.0em;
     width: 2.5em;
     height: 2.5em;
-    background-color: var(--mborder);
+    background-color: var(--success);
     color: white;
     border: none;
     border-radius: 50%;
@@ -307,8 +366,127 @@ body {
     z-index: 1000;
 }
 
-#scrollControls button:hover {
-   background-color: var(--mbutbkghv);
+#toggleMessageForm {
+    position: fixed;
+    bottom:4.5em;
+    right: 1.0em;
+    width: 2.5em;
+    height: 2.5em;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#scrollControls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#toTop:hover, #toBottom:hover, #toggleMessageForm:hover, #selectChanne:hover, #scrollControls button:hover, #removeChannel button:hover, #addChannel button:hover{
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2)); 
+    transform: translateY(-2px);
+}
+
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--error);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+    animation: fadeIn 0.3s ease-out, fadeOut 0.3s ease-in 3s;
+}
+
+.alert.success {
+    background-color: var(--success);
+}
+
+.alert.warning {
+    background-color: var(--warning);
+}
+
+.alert.info {
+    background-color: var(--primary);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.confirm, #addChannelModal {
+    position: fixed;
+    top: 10em;
+    left: 50%;
+    width: 18em;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--mborder);
+    background-color: var(--color-scheme-background);
+    color: var(--mapp);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: none;
+    z-index: 1001;
+}
+
+.confirm-content {
+    padding: 8px;
+}
+
+.confirm button, #addChannelModal button {
+    margin: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#confirmYes, #addConfirm {
+    background-color: var(--success);
+    color: white;
+}
+
+#confirmNo, #addCancel {
+    background-color: var(--error);
+    color: white;
+}
+
+#addChannelModal input {
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid var(--mborder);
+    border-radius: 5px;
+    background-color: var(--mheader);
+    font-size: 1em;
+    color: var(--color-scheme-text-color);
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
