@@ -1,93 +1,70 @@
 ### Usage Examples
 
+### Send message
 #### Using `curl`
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"message": "Hello from SSH" , "channel": "channel_name"}' http://<server-ip>:5511/messages
+curl -X POST http://localhost:5511/messages \
+-H "Content-Type: application/json" \
+-d '{"message": "Hello World", "channel": "general"}'
 ```
 
-#### Using `wget`
-
-```bash
-wget --method=POST --header="Content-Type: application/json" --body-data='{"message": "Hello from SSH", "channel": "channel_name"}' -O - http://<server-ip>:5511/messages
-```
-
-#### Using Python Script
+#### Using Python
 
 ```python
 import requests
 
-url = "http://<server-ip>:5511/messages"
-message = "Hello from Python"
+url = "http://localhost:5511/messages"
+data = {
+    "message": "Hello World",
+    "channel": "general"
+}
+headers = {"Content-Type": "application/json"}
 
-def send_message(url, message):
-    try:
-        payload = {"message": message, "channel": "channel_name"}
-        headers = {"Content-Type": "application/json"}
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200:
-            print("Message sent successfully!")
-            print("Response:", response.json())
-        else:
-            print("Failed to send message.")
-            print("Response:", response.json())
-    except Exception as e:
-        print("An error occurred:", e)
-
-if __name__ == "__main__":
-    send_message(url, message)
+response = requests.post(url, json=data, headers=headers)
+print(response.json())
 ```
 #### Using PHP Script
 
 ```
-$url = "http://<server-ip>:5511/messages";
-
+<?php
+$url = 'http://localhost:5511/messages';
 $data = [
-    "message" => "Hello from PHP",
-    "channel" => "channel_name"
-    "sender" => "PHP Script"
+    'message' => 'Hello World',
+    'channel' => 'general'
 ];
 
-$options = [
-    "http" => [
-        "header" => "Content-Type: application/json\r\n",
-        "method" => "POST",
-        "content" => json_encode($data)
-    ]
-];
-$context = stream_context_create($options);
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
-$response = file_get_contents($url, false, $context);
+$response = curl_exec($ch);
+curl_close($ch);
 
-if ($response === FALSE) {
-    echo "Error sending POST request.";
-} else {
-    echo "Response: " . $response;
-}
+$result = json_decode($response, true);
+print_r($result);
+?>
 ```
 #### Using JavaScript
 ```
-const url = "http://<server-ip>:5511/messages";
-const headers = {
-    "Content-Type": "application/json"
+const url = 'http://localhost:5511/messages';
+const data = {
+    message: 'Hello World',
+    channel: 'general'
 };
-const body = JSON.stringify({
-    message: "Hello from JavaScript",
-    channel: "channel_name",
-});
 
 fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: body
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
 })
 .then(response => response.json())
-.then(data => {
-    console.log("Response:", data);
-})
-.catch(error => {
-    console.error("Error:", error);
-});
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
 ```
 ---
 
@@ -115,7 +92,7 @@ Below is an example configuration for `dockcheck`, `check_services`, `update_che
 | Item | Required | Description |
 |------------|------------|------------|
 | ENABLED | true/false | Enable or disable Webntfy notifications |
-| server-ip | url | The URL of your Webntfy server |
+| SERVER | url | The URL of your Webntfy server |
 | FORMAT_MESSAGE | markdown | Specifies the message format used by each service, such as markdown, html, or other text formatting.|
 
 ---
