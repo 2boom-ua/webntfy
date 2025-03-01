@@ -154,6 +154,47 @@ else:
     print("Error:", response.status_code, response.text)
 ```
 ---
+### Usage Examples for delete channel
+#### Using `curl` 
+```bash
+curl -X DELETE http://localhost:5511/deletechannel \
+     -H "Content-Type: application/json" \
+     -d '{"channel": "#test"}'
+```
+#### Using `Python` 
+```python
+import requests
+
+url = "http://localhost:5511/deletechannel"
+data = {"channel": "your_channel_name"}
+
+response = requests.delete(url, json=data)
+print(response.json())
+```
+---
+
+### Usage Examples for add channel
+#### Using `curl` 
+```bash
+curl -X POST http://localhost:5511/addchannel \
+    -H "Content-Type: application/json" \
+    -d '{"channel": "newchannel"}'
+```
+#### Using `Python` 
+```python
+import requests
+
+url = "http://localhost:5511/addchannel"
+data = {
+    "channel": "newchannel"
+}
+headers = {"Content-Type": "application/json"}
+
+response = requests.post(url, json=data, headers=headers)
+print(response.json())
+```
+---
+
 ### Markdown Syntax Support
 
 #### Supported Formatting:
