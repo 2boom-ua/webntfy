@@ -9,7 +9,7 @@ A simple server for sending and receiving messages. It allows users to post new 
 ### Requirements
 
 - Python 3.X or higher
-- Dependencies: Flask, Requests
+- Dependencies: Gunicorn, Flask, Requests
 
 ---
 ### Installation
