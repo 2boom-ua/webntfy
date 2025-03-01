@@ -5,21 +5,11 @@
 from flask import Flask, render_template, jsonify, request
 from datetime import datetime, timedelta
 import sqlite3
-import logging
 import os
 
 app = Flask(__name__)
 DB_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "messages.db")
 MAX_DAYS = 30
-
-
-"""Configure logging"""
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
-
 
 def toHTMLFormat(message: str) -> str:
     """Converts Markdown-like syntax to HTML format."""
@@ -30,8 +20,8 @@ def toHTMLFormat(message: str) -> str:
     return message.replace("\n", "<br>")
 
 
+# Initialize database with a 'channel' column
 def init_db():
-    """Initialize the SQLite database and create the messages table."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("""
@@ -39,6 +29,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             time TEXT NOT NULL,
             text TEXT NOT NULL,
+            channel TEXT NOT NULL,
             created_at TEXT NOT NULL
         )
     """)
@@ -46,24 +37,39 @@ def init_db():
     conn.close()
 
 
-def get_messages():
-    """Retrieve all messages from the database."""
+def get_messages(channel=None):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, time, text FROM messages ORDER BY id ASC")
-    messages = [{"id": row[0], "time": row[1], "text": row[2]} for row in cursor.fetchall()]
+    if channel:
+        cursor.execute("SELECT id, time, text FROM messages WHERE channel = ? ORDER BY id ASC", (channel,))
+    else:
+        cursor.execute("SELECT id, time, text, channel FROM messages ORDER BY id ASC")
+    messages = [
+        {"id": row[0], "time": row[1], "text": row[2], "channel": row[3] if len(row) > 3 else "unknown"} 
+        for row in cursor.fetchall()
+    ]
     conn.close()
     return messages
+    
+
+def get_channels():
+    """Retrieve a list of all unique channels."""
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT DISTINCT channel FROM messages")
+    channels = [row[0] for row in cursor.fetchall()]
+    conn.close()
+    return channels
 
 
-def add_message(text):
-    """Add a new message to the database."""
+def add_message(text, channel):
+    """Add a message with channel support"""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute(
-        "INSERT INTO messages (time, text, created_at) VALUES (?, ?, ?)", 
-        (now, toHTMLFormat(text), now)
+        "INSERT INTO messages (time, text, channel, created_at) VALUES (?, ?, ?, ?)", 
+        (now, toHTMLFormat(text), channel, now)
     )
     conn.commit()
     conn.close()
@@ -123,13 +129,10 @@ def max_days():
         data = request.get_json()
         new_max_days = int(data.get("max_days", MAX_DAYS))
         if new_max_days <= 0:
-            logging.error("MAX_DAYS must be greater than 0.")
             return jsonify({"status": "error", "message": "MAX_DAYS must be greater than 0."}), 400
         MAX_DAYS = new_max_days
-        logging.info("MAX_DAYS updated to {MAX_DAYS}.")
         return jsonify({"status": "success", "message": f"MAX_DAYS updated to {MAX_DAYS}."}), 200
     except (ValueError, TypeError):
-        logging.error("Invalid input. MAX_DAYS must be an integer.")
         return jsonify({"status": "error", "message": "Invalid input. MAX_DAYS must be an integer."}), 400
 
 
@@ -143,10 +146,8 @@ def delete_last_message():
         cursor.execute("DELETE FROM messages WHERE id = ?", (last_id,))
         conn.commit()
         conn.close()
-        logging.info("Last message deleted.")
         return jsonify({"status": "success", "message": "Last message deleted."}), 200
-    logging.error("No last messages to delete.")
-    return jsonify({"status": "error", "message": "No last messages to delete."}), 400
+    return jsonify({"status": "error", "message": "No messages to delete."}), 400
 
    
 @app.route('/deleteall', methods=['DELETE'])
@@ -160,37 +161,80 @@ def delete_all_messages():
     return jsonify({"status": "success", "message": "All messages have been deleted."})
 
 
+@app.route('/deletechannel', methods=['DELETE'])
+def delete_channel():
+    """Deletes all messages related to a specific channel."""
+    data = request.get_json()
+    channel = data.get('channel')
+
+    if not channel:
+        return jsonify({"status": "error", "message": "Channel name required!"}), 400
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM messages WHERE channel = ?", (channel,))
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "success", "message": f"Channel '{channel}' deleted!"}), 200
+
+
+@app.route('/addchannel', methods=['POST'])
+def add_channel():
+    """Creates a new channel entry with a default welcome message."""
+    data = request.get_json()
+    channel = data.get("channel")
+    orange_dot = "\U0001F7E0"
+
+    if not channel:
+        return jsonify({"status": "error", "message": "Channel name required!"}), 400
+
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    first_message = f"{orange_dot} Channel **{channel}** created successfully"
+
+    cursor.execute("INSERT INTO messages (time, text, channel, created_at) VALUES (?, ?, ?, ?)", 
+                   (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), toHTMLFormat(first_message), channel, datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    
+    conn.commit()
+    conn.close()
+
+    return jsonify({"status": "success", "message": f"Channel '{channel}' created!", "first_message": first_message}), 200
+
+
 @app.route('/')
 def index():
-    """Serve the main HTML page."""
-    return render_template('index.html')
+    """Serve the main HTML page with channel-specific messages."""
+    channel = request.args.get('channel', 'default')
+    messages = get_messages(channel)
+    channels = get_channels()
+    return render_template('index.html', messages=messages, channel=channel, channels=channels)
 
 
 @app.route('/messages', methods=['GET', 'POST', 'DELETE'])
 def messages_endpoint():
     if request.method == 'POST':
         data = request.get_json()
-        if 'message' in data:
-            add_message(data['message'])
+        message = data.get('message')
+        channel = data.get('channel', 'default')
+        if message:
+            add_message(message, channel)
             truncate_messages()
-            logging.info("Message added successfully.")
             return jsonify({"status": "success", "message": "Message added!"}), 200
-        logging.error("No message provided in the POST request.")   
         return jsonify({"status": "error", "message": "No message provided!"}), 400
+
+    if request.method == 'GET':
+        channel = request.args.get('channel')
+        return jsonify({"messages": get_messages(channel)})
 
     if request.method == 'DELETE':
         data = request.json
         message_id = data.get('id')
         if message_id is not None:
             delete_message(message_id)
-            logging.info(f"Message with ID {message_id} deleted successfully.")
             return jsonify({"status": "success", "message": "Message deleted!"}), 200
-        logging.error("Invalid ID provided in the DELETE request.")
         return jsonify({"status": "error", "message": "Invalid ID!"}), 400
-
-    return jsonify({"messages": get_messages()})
 
 
 if __name__ == '__main__':
     init_db()
-    app.run(host='0.0.0.0', port=5511)
+    app.run(host='0.0.0.0', port=5511, debug=True)
