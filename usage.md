@@ -3,13 +3,13 @@
 #### Using `curl`
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"message": "Hello from SSH"}' http://<server-ip>:5511/messages
+curl -X POST -H "Content-Type: application/json" -d '{"message": "Hello from SSH" , "channel": "channel_name"}' http://<server-ip>:5511/messages
 ```
 
 #### Using `wget`
 
 ```bash
-wget --method=POST --header="Content-Type: application/json" --body-data='{"message": "Hello from SSH"}' -O - http://<server-ip>:5511/messages
+wget --method=POST --header="Content-Type: application/json" --body-data='{"message": "Hello from SSH", "channel": "channel_name"}' -O - http://<server-ip>:5511/messages
 ```
 
 #### Using Python Script
@@ -22,7 +22,7 @@ message = "Hello from Python"
 
 def send_message(url, message):
     try:
-        payload = {"message": message}
+        payload = {"message": message, "channel": "channel_name"}
         headers = {"Content-Type": "application/json"}
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
@@ -44,6 +44,7 @@ $url = "http://<server-ip>:5511/messages";
 
 $data = [
     "message" => "Hello from PHP",
+    "channel" => "channel_name"
     "sender" => "PHP Script"
 ];
 
@@ -71,7 +72,8 @@ const headers = {
     "Content-Type": "application/json"
 };
 const body = JSON.stringify({
-    message: "Hello from JavaScript"
+    message: "Hello from JavaScript",
+    channel: "channel_name",
 });
 
 fetch(url, {
@@ -103,7 +105,7 @@ Below is an example configuration for `dockcheck`, `check_services`, `update_che
         {"Content-Type": "application/json"}
     ],
     "PYLOAD": [
-        {"message": "message"}
+        {"message": "message", "channel": "channel_name"}
     ],
     "FORMAT_MESSAGE": [
         "markdown"
