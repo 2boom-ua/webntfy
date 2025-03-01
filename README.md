@@ -22,7 +22,7 @@ cd webntfy
 ```
 ### Dowload and edit config.json
 ```bash
-curl -L -o ./config.json  https://raw.githubusercontent.com/2boom-ua/webntfy/main/messages.db
+curl -L -o ./messages.db  https://raw.githubusercontent.com/2boom-ua/webntfy/main/messages.db
 ```
 ---
 ### Docker
