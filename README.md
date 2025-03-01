@@ -20,12 +20,12 @@ A simple server for sending and receiving messages. It allows users to post new 
 git clone https://github.com/2boom-ua/webntfy.git
 cd webntfy
 ```
+### Dowload and edit config.json
+```bash
+curl -L -o ./config.json  https://raw.githubusercontent.com/2boom-ua/webntfy/main/messages.db
+```
 ---
 ### Docker
-```bash
-touch messages.db
-```
-
 ```bash
   docker build -t webntfy .
 ```
@@ -82,7 +82,8 @@ After=multi-user.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/bin/python3 /opt/webntfy/webntfy.py
+WorkingDirectory=/opt/webntfy
+ExecStart=gunicorn -w 4 -b 0.0.0.0:5511 webntfy:app
 
 [Install]
 WantedBy=multi-user.target
