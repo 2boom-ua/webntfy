@@ -408,7 +408,6 @@ async function addChannel() {
         } catch (error) {
             showAlert("Failed to add channel: " + error.message, "error");
         }
-
         modal.style.display = 'none';
     };
 
@@ -416,3 +415,5 @@ async function addChannel() {
         modal.style.display = 'none';
     };
 }
+
+document.getElementById("reloadChannels").addEventListener("click", () => reloadChannels());
