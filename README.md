@@ -14,18 +14,13 @@ A simple server for sending and receiving messages. It allows users to post new 
 ---
 ### Installation
 
-#### Clone the Repository
+### Docker
 
-```bash
-git clone https://github.com/2boom-ua/webntfy.git
-cd webntfy
-```
-### Dowload and edit config.json
+### Dowload messages.db
 ```bash
 curl -L -o ./messages.db  https://raw.githubusercontent.com/2boom-ua/webntfy/main/messages.db
 ```
 ---
-### Docker
 ```bash
   docker build -t webntfy .
 ```
@@ -61,6 +56,11 @@ docker-compose up -d
 ---
 ### Running as a Linux Service
 
+#### Clone the Repository
+```bash
+git clone https://github.com/2boom-ua/webntfy.git
+cd webntfy
+```
 #### Install Required Python Packages
 
 ```bash
