@@ -12,9 +12,7 @@ A simple server for sending and receiving messages. It allows users to post new 
 - Dependencies: Gunicorn, Flask, Requests
 
 ---
-### Installation
-
-### Docker
+#### Docker Installation
 
 ### Dowload messages.db
 ```bash
