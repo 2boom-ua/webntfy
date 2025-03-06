@@ -374,6 +374,16 @@ async function addChannel() {
     newChannelInput.value = '';
     newChannelInput.focus();
 
+    newChannelInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('addConfirm').click();
+        } else if (event.key === 'Escape') {
+            event.preventDefault();
+            document.getElementById('addCancel').click();
+        }
+    });
+
     document.getElementById('addConfirm').onclick = async () => {
         const newChannel = newChannelInput.value.trim();
         if (!newChannel) {
@@ -415,5 +425,3 @@ async function addChannel() {
         modal.style.display = 'none';
     };
 }
-
-document.getElementById("reloadChannels").addEventListener("click", () => reloadChannels());

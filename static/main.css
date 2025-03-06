@@ -94,13 +94,14 @@ body {
 
 .MessageBox {
 	display: block;
-    font-size: 1em;
+    font-size: 0.9em;
 	box-sizing: content-box;
 	max-height: 92vh;
 	overflow-y: auto;
 	margin: 1em auto 1em auto;
 	overflow-wrap: break-word;
-	width: 30em;
+    padding-bottom: 3px;
+	width: 32em;
 }
 
 .message {
@@ -108,6 +109,14 @@ body {
     margin: 0 0.3em;
 	word-wrap: break-word;
 	width: 100%;
+    margin-bottom: 0.1em;
+}
+
+.time {
+	font-size: 0.9em;
+	text-align: left;
+	color: var(--mplaceholdertext);
+    margin-bottom: 0.1em;
 }
 
 @media screen and (max-width: 500px) {
@@ -115,10 +124,11 @@ body {
 		display: none !important;
 	}
     .MessageBox {
-        width: 23em;
+        width: 95vw;
+        font-size: 0.9em;
     }
     #channelForm, #channelForm select {
-        font-size: 1.1em;
+        font-size: 1.0em;
     }
 }
 
@@ -140,16 +150,10 @@ body {
 	color: var(--mdarkred);
 }
 
-.time {
-	font-size: 1em;
-	text-align: left;
-	color: var(--mplaceholdertext);
-    margin-bottom: 0.1em;
-}
 
 #channelForm {
     position: fixed;
-    font-size: 1.1em;
+    font-size: 1.0em;
     min-width: 10em;
     max-width: 30em;
     top: 0;
