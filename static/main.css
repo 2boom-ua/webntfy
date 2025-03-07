@@ -100,7 +100,7 @@ body {
 	overflow-y: auto;
 	margin: 1em auto 1em auto;
 	overflow-wrap: break-word;
-    padding-bottom: 3px;
+        padding-bottom: 1px;
 	width: 32em;
 }
 
