@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 DB_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "messages.db")
-MAX_DAYS = 30
+MAX_DAYS = 10
 
 def toHTMLFormat(message: str) -> str:
     """Converts Markdown-like syntax to HTML format."""
@@ -20,8 +20,8 @@ def toHTMLFormat(message: str) -> str:
     return message.replace("\n", "<br>")
 
 
-# Initialize database with a 'channel' column
 def init_db():
+    """Initialize database"""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("""
@@ -38,6 +38,7 @@ def init_db():
 
 
 def get_messages(channel=None):
+    """Retrieves messages from the database"""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     if channel:
@@ -212,6 +213,7 @@ def index():
 
 @app.route('/messages', methods=['GET', 'POST', 'DELETE'])
 def messages_endpoint():
+    """API endpoint to handle messages"""
     if request.method == 'POST':
         data = request.get_json()
         message = data.get('message')
