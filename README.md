@@ -1,5 +1,5 @@
 <div align="center">  
-    <img src="https://github.com/2boom-ua/webntfy/blob/main/icon.png?raw=true" alt="" width="124" height="124">
+    <img src="https://github.com/2boom-ua/webntfy/blob/main/static/mstile-144x144.png?raw=true" alt="" width="124" height="124">
 </div>
 
 ## WebNtfy
