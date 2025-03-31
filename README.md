@@ -33,7 +33,6 @@ docker run -v ./messages.db:/webntfy/messages.db --name webntfy -p 5511:5511 -e 
 ```
 ### docker-compose
 ```
-version: "3.8"
 services:
   webntfy:
     container_name: webntfy
