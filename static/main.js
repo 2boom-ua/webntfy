@@ -3,6 +3,7 @@ let interval;
 let lastMessageId = null;
 let blinkInterval = null;
 let scrollTimeout;
+let _firstLoadScrolled = false;
 
 document.addEventListener('DOMContentLoaded', async function() {
     const form = document.getElementById('channelForm');
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (savedChannel) {
         select.value = savedChannel;
     }
-    
+
     updateTitle(select.value);
 
     select.addEventListener('change', async function() {
@@ -71,7 +72,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     await loadMessages();
-    initialScrollToBottom();
+    // Robust initial scroll: observe the messages container for mutations and scroll
+    // until height stabilizes (works better across browsers like Edge).
+    scrollToBottomOnFirstLoad();
     interval = setInterval(loadMessages, 5000);
 });
 
@@ -288,8 +291,45 @@ function scrollToBottom() {
     messagesBox.scrollTop = messagesBox.scrollHeight;
 }
 
-function initialScrollToBottom() {
-    scrollToBottom();
+// New: robust initial scroll that works reliably in Edge/Chromium
+function scrollToBottomOnFirstLoad() {
+    if (_firstLoadScrolled) return;
+    const messagesBox = document.getElementById('messages');
+    if (!messagesBox) return;
+
+    // Try immediate frame scroll
+    requestAnimationFrame(() => {
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    });
+
+    // Observe mutations so we can re-scroll until height stabilizes (images/fonts may change height)
+    let lastHeight = messagesBox.scrollHeight;
+    const observer = new MutationObserver(() => {
+        const newHeight = messagesBox.scrollHeight;
+        if (newHeight !== lastHeight) {
+            lastHeight = newHeight;
+            // schedule scroll on next paint
+            requestAnimationFrame(() => {
+                messagesBox.scrollTop = messagesBox.scrollHeight;
+            });
+            // reset debounce timer
+            clearTimeout(observer._timeout);
+            observer._timeout = setTimeout(() => {
+                observer.disconnect();
+                _firstLoadScrolled = true;
+            }, 150);
+        }
+    });
+
+    observer.observe(messagesBox, { childList: true, subtree: true, characterData: true });
+
+    // Fallback: disconnect after 3s max so we don't keep observing forever
+    setTimeout(() => {
+        if (!_firstLoadScrolled) {
+            observer.disconnect();
+            _firstLoadScrolled = true;
+        }
+    }, 3000);
 }
 
 function showScrollControls() {
@@ -368,7 +408,7 @@ async function addChannel() {
         `;
         document.body.appendChild(modal);
     }
-    
+
     modal.style.display = 'block';
     const newChannelInput = document.getElementById('newChannelName');
     newChannelInput.value = '';
@@ -408,10 +448,10 @@ async function addChannel() {
                 option.text = newChannel;
                 select.appendChild(option);
                 select.value = newChannel;
-                
+
                 localStorage.setItem('selectedChannel', newChannel);
                 updateTitle(newChannel);
-                
+
                 await loadMessages();
                 scrollToBottom();
             }
