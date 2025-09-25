@@ -43,7 +43,7 @@ services:
       - 5511:5511
     volumes:
       - ./messages.db:/webntfy/messages.db
-    restart: always
+    restart: unless-stopped
 ```
 
 ```bash
